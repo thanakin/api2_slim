@@ -1,9 +1,12 @@
 <?php
-
+/*
 require '../Slim/Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 $app = new \Slim\Slim();
 $app->response()->header('Content-Type', 'application/json;charset=utf-8');
+*/
+require 'vendor/autoload.php';
+$app = new \Slim\App();
 
 $app->get('/', function () {
   echo "SlimProdutos ";
@@ -20,13 +23,15 @@ $app->run();
 
 function getConn()
 {
- return new PDO('mysql:host=localhost;dbname=SlimProdutos',
+ /*return new PDO('mysql:host=localhost;dbname=SlimProdutos',
   'root',
   '',
   array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
   
-  );
-
+  );*/
+  return new PDO('mysql:host=localhost;dbname=api;port=3306','root','',
+    array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
+    );
 }
 
 function getCategorias()

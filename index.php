@@ -2,28 +2,35 @@
 
 //require '../Slim/Slim/Slim.php';
 require 'vendor/autoload.php';
-$request = \Slim\Slim::registerAutoloader();
-$app = new \Slim\Slim();
-$app->response()->header('Content-Type', 'application/json;charset=utf-8');
+//$request = \Slim\Slim::registerAutoloader();
+//$app = new \Slim\Slim();
+$app = new \Slim\App();
+//$app->response()->header('Content-Type', 'application/json;charset=utf-8');
 
 $app->get('/', function () {
     echo "SlimProdutos ";
     });
 
 $app->get('/categorias','getCategorias');
+//$app->post('/produto','addProduto');
+//$app->get('/produto/:id','getProduto');
+//$app->get('/produtos/:id/','getProduto');
+$app->get('/produtos/','getProdutos');
 $app->run();
 
 function getConn() {
-    return new PDO('mysql:host=localhost;dbname=SlimProdutos','root','',
+    return new PDO('mysql:host=localhost;dbname=api;port=3306','root','',
     array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8")
     );
     }
+
 
 function getCategorias() {
     $stmt = getConn()->query("SELECT * FROM Categorias");
     $categorias = $stmt->fetchAll(PDO::FETCH_OBJ);
     echo "{categorias:".json_encode($categorias)."}";
     }
+
 
 function addProduto(){
     $request = \Slim\Slim::getInstance()->request();
@@ -47,14 +54,14 @@ function getProduto($id){
     $stmt->bindParam("id",$id);
     $stmt->execute();
     $produto = $stmt->fetchObject();
-    
+/*
     //categoria
     $sql = "SELECT * FROM categorias WHERE id=:id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam("id",$produto->idCategoria);
     $stmt->execute();
     $produto->categoria = $stmt->fetchObject();
-    
+    */
     echo json_encode($produto);
     }
 
